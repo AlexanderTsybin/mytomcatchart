@@ -45,6 +45,14 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{/*
+Labels to use on {deploy|sts}.spec.selector.matchLabels and svc.spec.selector
+*/}}
+{{- define "mytomcat.matchLabels" -}}
+app.kubernetes.io/name: {{ include "mytomcat.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "mytomcat.serviceAccountName" -}}
