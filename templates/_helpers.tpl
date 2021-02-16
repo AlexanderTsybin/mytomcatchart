@@ -36,20 +36,13 @@ Common labels
 */}}
 {{- define "mytomcat.labels" -}}
 app.kubernetes.io/name: {{ include "mytomcat.name" . }}
-helm.sh/chart: {{ include "mytomcat.chart" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{/*
 Labels to use on {deploy|sts}.spec.selector.matchLabels and svc.spec.selector
 */}}
 {{- define "mytomcat.matchLabels" -}}
-app.kubernetes.io/name: {{ include "mytomcat.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+name: {{ include "mytomcat.name" . }}
 {{- end -}}
 
 {{/*
