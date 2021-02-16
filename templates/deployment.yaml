@@ -22,7 +22,7 @@ spec:
         - name: http
           containerPort: 8080
           protocol: TCP
-        {{- if .Value.livenessProbe.enabled }}
+        {{- if .Values.livenessProbe.enabled }}
         livenessProbe:
           httpGet:
             path: /
@@ -31,7 +31,7 @@ spec:
           periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
         {{- end }}
-        {{- if .Value.readinessProbe.enabled }}
+        {{- if .Values.readinessProbe.enabled }}
         readinessProbe:
           httpGet:
             path: /
