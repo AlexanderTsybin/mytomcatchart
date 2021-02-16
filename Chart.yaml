@@ -2,8 +2,4 @@ apiVersion: v1
 appVersion: "0.1.0"
 description: A Helm chart for Spring Boot app running on Tomcat in K8s
 name: mytomcat
-version: 0.1.0
-dependencies:
-  - name: mynginx
-    version: 0.1.0
-    repository: @myrepo
+version: 0.1.1

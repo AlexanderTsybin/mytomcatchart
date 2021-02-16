@@ -36,6 +36,18 @@ securityContext: {}
 service:
   type: NodePort
   port: 80
+  nodePorts:
+    http: "30080"
+  
+livenessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 2
+  timeoutSeconds: 10
+
+readinessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 2
+  timeoutSeconds: 10
 
 resources:
   limits:
