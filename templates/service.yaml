@@ -14,4 +14,5 @@ spec:
       nodePort: {{ .Values.service.nodePorts.http }}
       {{- else if eq .Values.service.type "ClusterIP" }}
       nodePort: {{ .Values.service.port  }}
+      {{- end }}
   selector: {{- include "mytomcat.matchLabels" . | nindent 4 }}

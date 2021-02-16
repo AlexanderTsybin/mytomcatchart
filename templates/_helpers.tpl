@@ -35,7 +35,7 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "mytomcat.labels" -}}
-app.kubernetes.io/name: {{ include "mytomcat.name" . }}
+name: {{ include "mytomcat.name" . }}
 {{- end -}}
 
 {{/*

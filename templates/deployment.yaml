@@ -30,6 +30,7 @@ spec:
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+        {{- end }}
         {{- if .Value.readinessProbe.enabled }}
         readinessProbe:
           httpGet:
@@ -38,5 +39,6 @@ spec:
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
           timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+        {{- end }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
