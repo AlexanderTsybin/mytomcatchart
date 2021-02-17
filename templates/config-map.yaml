@@ -5,6 +5,7 @@ metadata:
   labels:
 {{ include "mytomcat.python.labels" . | indent 4 }}
 data:
+  config.yaml: |
   {{- range $key, $val := .Values.pythonConfig }}
   {{ $key }}: {{ $val | quote }}
   {{- end }}
