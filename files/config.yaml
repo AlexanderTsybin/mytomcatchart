@@ -1,0 +1,3 @@
+{{- range $key, $val := .Values.pythonConfig }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}

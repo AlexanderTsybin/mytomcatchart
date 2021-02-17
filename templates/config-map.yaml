@@ -6,8 +6,4 @@ metadata:
 {{ include "mytomcat.python.labels" . | indent 4 }}
 data:
   config.yaml: |-
-    pythonConfig:
-      firstVariable: firstValue
-      springHost: tomcat.java-app.local
-      springPort: 30080
-      uri: /
+{{ tpl ( .Files.Get "files/config.yaml" ) . | indent 4 }}
