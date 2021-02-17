@@ -43,6 +43,7 @@ spec:
         volumeMounts:
         - name: config-volume
           mountPath: /usr/src/app/config.yaml
+          subPath: config.yaml
           readOnly: true
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
@@ -50,9 +51,6 @@ spec:
       - name: config-volume
         configMap:
           name: {{ template "mytomcat.python.fullname" . }}-config
-          items:
-          - key: "config.yaml"
-            path: "config.yaml"
       {{- if .Values.securityContext.enabled }}
       securityContext:
           runAsUser: {{ .Values.securityContext.runAsUser}}
