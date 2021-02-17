@@ -18,6 +18,8 @@ python:
     initialDelaySeconds: 10
     periodSeconds: 2
     timeoutSeconds: 10
+  readinessProbe:
+    enabled: false
   nameOverride: python-app
 
 
