@@ -42,7 +42,7 @@ spec:
         {{- end }}
         volumeMounts:
         - name: config-volume
-          mountPath: /config.yaml
+          mountPath: /usr/src/app/config.yaml
           readOnly: true
         resources:
           {{- toYaml .Values.resources | nindent 12 }}

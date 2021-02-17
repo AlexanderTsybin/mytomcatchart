@@ -63,7 +63,7 @@ service:
     http: "30080"
   
 livenessProbe:
-  enabled: true
+  enabled: false
   initialDelaySeconds: 10
   periodSeconds: 2
   timeoutSeconds: 10
