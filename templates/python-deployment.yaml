@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mytomcat.python.fullname" . }}
+  labels:
+{{ include "mytomcat.python.labels" . | indent 4 }}
+spec:
+  selector:
+    matchLabels: {{- include "mytomcat.python.matchLabels" . | nindent 6 }}
+  {{- if .Values.updateStrategy }}
+  strategy: {{ toYaml .Values.updateStrategy | nindent 4 }}
+  {{- end }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels: {{- include "mytomcat.python.labels" . | nindent 8 }}
+    spec:         
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.python.image.repository }}:{{ .Values.python.image.tag }}"
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        {{- if  .Values.python.livenessProbe.enabled }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: {{  .Values.python.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{  .Values.python.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{  .Values.python.livenessProbe.timeoutSeconds }}
+        {{- end }}
+        {{- if  .Values.python.readinessProbe.enabled }}
+        readinessProbe:
+          httpGet:
+            path: /health/index.html
+            port: http
+          initialDelaySeconds: {{  .Values.python.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{  .Values.python.readinessProbe.periodSeconds }}
+          timeoutSeconds: {{  .Values.python.readinessProbe.timeoutSeconds }}
+        {{- end }}
+        volumeMounts:
+        - name: config-volume
+          mountPath: /config.yaml
+          readOnly: true
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+      - name: config-volume
+        configMap:
+          name: {{ template "mytomcat.python.fullname" . }}-config
+      {{- if .Values.securityContext.enabled }}
+      securityContext:
+          runAsUser: {{ .Values.securityContext.runAsUser}}
+          runAsGroup: {{ .Values.securityContext.runAsGroup}}
+          fsGroup: {{ .Values.securityContext.fsGroup }}
+      {{- end }}

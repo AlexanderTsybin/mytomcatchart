@@ -6,6 +6,10 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{- define "mytomcat.python.name" -}}
+{{- default .Chart.Name .Values.python.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
 {{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
@@ -16,6 +20,19 @@ If release name contains chart name it will be used as a full name.
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
 {{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "mytomcat.python.fullname" -}}
+{{- if .Values.python.fullnameOverride -}}
+{{- .Values.python.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default .Chart.Name .Values.python.nameOverride -}}
 {{- if contains $name .Release.Name -}}
 {{- .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -38,11 +55,19 @@ Common labels
 name: {{ include "mytomcat.name" . }}
 {{- end -}}
 
+{{- define "mytomcat.python.labels" -}}
+name: {{ include "mytomcat.python.name" . }}
+{{- end -}}
+
 {{/*
 Labels to use on {deploy|sts}.spec.selector.matchLabels and svc.spec.selector
 */}}
 {{- define "mytomcat.matchLabels" -}}
 name: {{ include "mytomcat.name" . }}
+{{- end -}}
+
+{{- define "mytomcat.python.matchLabels" -}}
+name: {{ include "mytomcat.python.name" . }}
 {{- end -}}
 
 {{/*

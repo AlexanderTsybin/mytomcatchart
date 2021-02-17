@@ -2,6 +2,25 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+pythonConfig:
+  firstVariable: firstValue
+  springHost: tomcat.java-app.local
+  springPort: 30080
+  uri: /
+
+python:
+  image:
+    repository: atsybin/python-server
+    tag: latest
+    pullPolicy: IfNotPresent
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 10
+    periodSeconds: 2
+    timeoutSeconds: 10
+  nameOverride: python-app
+
+
 updateStrategy:
   type: RollingUpdate
 replicaCount: 4
@@ -25,13 +44,15 @@ imagePullSecrets: []
 podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+securityContext:
+  #capabilities:
+  #  drop:
+  #  - ALL
+  #readOnlyRootFilesystem: true
+  enabled: false
+  runAsNonRoot: true
+  fsGroup: 1001
+  runAsUser: 1001
 
 service:
   type: NodePort
