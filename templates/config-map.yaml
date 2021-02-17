@@ -6,6 +6,8 @@ metadata:
 {{ include "mytomcat.python.labels" . | indent 4 }}
 data:
   config.yaml: |-
-  {{- range $key, $val := .Values.pythonConfig }}
-  {{ $key }}: {{ $val | quote }}
-  {{- end }}
+    pythonConfig:
+      firstVariable: firstValue
+      springHost: tomcat.java-app.local
+      springPort: 30080
+      uri: /
